@@ -7,7 +7,7 @@
   };
   function render(){
     // stworzylem petle dla bazy danych ksiazek tak aby miec dostep do kazdej w tablicy
-    for(let book in dataSource.books){
+    for(const book in dataSource.books){
 
       // stworzylem stala ktora jest rowna jednej instancji ksiazki np Lady in red
       const bookData = dataSource.books[book];
@@ -27,25 +27,34 @@
       // console.log('book', bookData);
     }
     initActions();
-    }
-   render();
+  }
+  render();
   
   function initActions(){
     const favoriteBooks = [];
     const bookImages = document.querySelectorAll('.books-list a.book__image');
     for(let img of bookImages){
-        img.addEventListener('click', function(event){
-            event.preventDefault() // musialem dodac bo i tak wylapuje pojedycze klikniecie i przeladowuje strone 🤢
-        });
-        img.addEventListener('dblclick', function(event){
-            event.preventDefault()
+        
+      img.addEventListener('dblclick', function(event){
+        event.preventDefault();
+        const bookId = img.getAttribute('data-id');
+        const index = favoriteBooks.indexOf(bookId);
+        console.log(index)
+        if(index === -1){
             img.classList.add('favorite');
-            const bookId = img.getAttribute('data-id')
             favoriteBooks.push(bookId)
-            console.log(favoriteBooks)
-        });
+        } else {
+            img.classList.remove('favorite')
+            favoriteBooks.splice(index, 1)
+        }
+        
+        
+      });
     }
   }
  
+//   img.addEventListener('click', function(event){
+//     event.preventDefault(); // musialem dodac bo i tak wylapuje pojedycze klikniecie i przeladowuje strone 🤢
+//   });
   
 }
