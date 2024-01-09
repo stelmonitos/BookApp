@@ -17,7 +17,6 @@
       const bookList = document.querySelector(select.bookList); // odnosnik do wnetrza ul
 
       const generatedHTML = Handlebars.compile(booksTemplate.innerHTML); // przypisuje funkcje compile do szablonu w htmlu
-
       bookData.element = utils.createDOMFromHTML(generatedHTML(bookData)); //wypelnia handlebars w szablonie i tworzy element dom juz na stronie 
       // pojedyncza ksiazka ronwa sie tworzeniu elementu dom z html za pomoca funkcji kompilacji calego li jednej ksiazki przy uzyciu argumentu zdefiniowanej jednej ksiazki jako ze to petla to postepuje tak z kazda ksiazka po kolei
       bookList.appendChild(bookData.element);// tworzy dziecko w ul skompilowanego elementu bookstemplate
@@ -25,36 +24,41 @@
       // console.log('template:', booksTemplate);
       // console.log('bookList', bookList)
       // console.log('book', bookData);
+      
     }
     initActions();
   }
   render();
-  
   function initActions(){
+    const links = document.querySelectorAll('a')
+    for(const link of links){
+    link.addEventListener('click', function(event){
+        event.preventDefault();
+    })
+    }
     const favoriteBooks = [];
     const bookImages = document.querySelectorAll('.books-list a.book__image');
     for(let img of bookImages){
-        
       img.addEventListener('dblclick', function(event){
         event.preventDefault();
         const bookId = img.getAttribute('data-id');
         const index = favoriteBooks.indexOf(bookId);
-        console.log(index)
+        const element = event.target
+        console.log(element) //zrob ifa ktory powie czy w ogole to jest to co chciales kliknac
         if(index === -1){
-            img.classList.add('favorite');
-            favoriteBooks.push(bookId)
+          img.classList.add('favorite');
+          favoriteBooks.push(bookId);
         } else {
-            img.classList.remove('favorite')
-            favoriteBooks.splice(index, 1)
+          img.classList.remove('favorite');
+          favoriteBooks.splice(index, 1);
+          // sprobuj uzyc filter
         }
-        
-        
       });
     }
   }
  
-//   img.addEventListener('click', function(event){
-//     event.preventDefault(); // musialem dodac bo i tak wylapuje pojedycze klikniecie i przeladowuje strone 🤢
-//   });
+    //   .addEventListener('click', function(event){
+  //     event.preventDefault(); // musialem dodac bo i tak wylapuje pojedycze klikniecie i przeladowuje strone 🤢
+  //   });
   
 }
