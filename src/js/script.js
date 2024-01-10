@@ -20,11 +20,6 @@
       bookData.element = utils.createDOMFromHTML(generatedHTML(bookData)); //wypelnia handlebars w szablonie i tworzy element dom juz na stronie 
       // pojedyncza ksiazka ronwa sie tworzeniu elementu dom z html za pomoca funkcji kompilacji calego li jednej ksiazki przy uzyciu argumentu zdefiniowanej jednej ksiazki jako ze to petla to postepuje tak z kazda ksiazka po kolei
       bookList.appendChild(bookData.element);// tworzy dziecko w ul skompilowanego elementu bookstemplate
-
-      // console.log('template:', booksTemplate);
-      // console.log('bookList', bookList)
-      // console.log('book', bookData);
-      
     }
     initActions();
   }
@@ -34,7 +29,7 @@
     for(const link of links){
     link.addEventListener('click', function(event){
         event.preventDefault();
-    })
+    });
     }
     const favoriteBooks = [];
     const bookImages = document.querySelectorAll('.books-list a.book__image');
@@ -42,23 +37,17 @@
       img.addEventListener('dblclick', function(event){
         event.preventDefault();
         const bookId = img.getAttribute('data-id');
-        const index = favoriteBooks.indexOf(bookId);
         const element = event.target
-        console.log(element) //zrob ifa ktory powie czy w ogole to jest to co chciales kliknac
-        if(index === -1){
-          img.classList.add('favorite');
-          favoriteBooks.push(bookId);
-        } else {
+        console.log(favoriteBooks) //zrob ifa ktory powie czy w ogole to jest to co chciales kliknac (if ma zamknac ifa z indexem(ma zostac rodzicem dla ifa z indexem i upewniac sie w co))
+        if(element.offsetParent.classList.contains('favorite')){
           img.classList.remove('favorite');
-          favoriteBooks.splice(index, 1);
-          // sprobuj uzyc filter
+          favoriteBooks.filter(bookId)
+        } else {
+          img.classList.add('favorite');
+         favoriteBooks.push(bookId);
         }
       });
     }
   }
  
-    //   .addEventListener('click', function(event){
-  //     event.preventDefault(); // musialem dodac bo i tak wylapuje pojedycze klikniecie i przeladowuje strone 🤢
-  //   });
-  
 }
