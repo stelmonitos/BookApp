@@ -51,38 +51,36 @@
 
   }
   let filters = [];
-  const filtersRef = document.querySelector('.filters')
+  const filtersRef = document.querySelector('.filters');
   filtersRef.addEventListener('click', function (event) {
-    const element = event.target
+    const element = event.target;
     if (element.tagName === 'INPUT' && element.type === 'checkbox' && element.name === 'filter') {
       if (element.checked === true) {
-        filters.push(element.value)
+        filters.push(element.value);
       } else if (element.checked === false) {
-        filters = filters.filter(value => value !== element.value)
+        filters = filters.filter(value => value !== element.value);
       }
       filterBooks();
     }
 
-  })
-  function filterBooks() {
+  });
+  function filterBooks() { // jak dziala ten kod bo ja nie wiem
     for (let book of dataSource.books) {
-      const bookImage = document.querySelectorAll(`.book__image[data-id="${book.id}"]`)
-      console.log((`.book__image[data-id="${book.id}"]`))
-      console.log(book.id)
-      let shouldBeHidden = false
-      for (let filter of filters) {
+      const bookImage = document.querySelector(`.book__image[data-id="${book.id}"]`);
+      let shouldBeHidden = false;
+      for (let filter of filters) {        
         console.log(filter)
-        if (!book.details[filter]) {
-          shouldBeHidden = true
+        if(book.details[filter]) {
+          console.log('book.details[filter]',book.details[filter])
+          shouldBeHidden = true;
           break;
         }
-        const selectedBook = document.querySelector('.book__image')
-        if (bookImage) {
-          if (shouldBeHidden) {
-            selectedBook.classList.add('hidden');
-          } else {
-            selectedBook.classList.remove('hidden');
-          }
+      }
+      if(bookImage) {
+        if(shouldBeHidden) {
+          bookImage.classList.add('hidden');
+        } else {
+          bookImage.classList.remove('hidden');
         }
       }
     }
