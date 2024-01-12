@@ -8,9 +8,15 @@
   function render() {
     // stworzylem petle dla bazy danych ksiazek tak aby miec dostep do kazdej w tablicy
     for (const book in dataSource.books) {
-
-      // stworzylem stala ktora jest rowna jednej instancji ksiazki np Lady in red
-      const bookData = dataSource.books[book];
+      const ratingBgc = determineRatingBgc(dataSource.books[book].rating);
+      console.log(ratingBgc);
+      const ratingWidth = dataSource.books[book].rating * 10;
+      console.log(ratingWidth);
+     
+      const bookData = dataSource.books[book]; // stworzylem stala ktora jest rowna jednej instancji ksiazki np Lady in red
+      bookData.ratingBgc = ratingBgc; // Add ratingBgc property to bookData
+      bookData.ratingWidth = ratingWidth; // Add ratingWidth property to bookData
+    
 
       // przypisalem stale do konkretnych miejsc w htmlu
       const booksTemplate = document.querySelector(select.books); //odnosnik do szablonu ksiazki w <script>
@@ -69,9 +75,7 @@
       const bookImage = document.querySelector(`.book__image[data-id="${book.id}"]`);
       let shouldBeHidden = false;
       for (let filter of filters) {        
-        console.log(filter)
         if(book.details[filter]) {
-          console.log('book.details[filter]',book.details[filter])
           shouldBeHidden = true;
           break;
         }
@@ -84,5 +88,18 @@
         }
       }
     }
+  }
+  function determineRatingBgc(rating) {
+    let background = '';
+    if (rating < 6) {
+      background = 'linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%)';
+    } else if (rating > 6 && rating <= 8) {
+      background = 'linear-gradient(to bottom, #b4df5b 0%,#b4df5b 100%)';
+    } else if (rating > 8 && rating <= 9) {
+      background = 'linear-gradient(to bottom, #299a0b 0%, #299a0b 100%)';
+    } else if (rating > 9) {
+      background = 'linear-gradient(to bottom, #ff0084 0%,#ff0084 100%)';
+    }
+    return background;
   }
 }
